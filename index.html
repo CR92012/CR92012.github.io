@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Violencia Digital y Responsabilidad</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+        header {
+            background-color: #ff4757;
+            color: white;
+            text-align: center;
+            padding: 30px 10px;
+        }
+        header h1 {
+            margin: 0;
+            font-size: 2em;
+        }
+        section {
+            margin: 20px;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            min-height: calc(100vh - 140px);
+        }
+        h2 {
+            color: #ff4757;
+            margin-top: 0;
+        }
+        p {
+            line-height: 1.5;
+        }
+        .alert {
+            background-color: #ff6b6b;
+            color: white;
+            padding: 15px;
+            border-radius: 5px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        .button-box {
+            margin-top: 20px;
+        }
+        .button-box button {
+            background-color: #1e90ff;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1em;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f4f4f4;
+            border-radius: 5px;
+            display: none;
+        }
+        footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 10px;
+            margin-top: 20px;
+            position: relative;
+            bottom: 0;
+            width: 100%;
+        }
+    </style>
+    <script>
+        function checkAnswer(option) {
+            var resultBox = document.getElementById('result');
+            resultBox.style.display = 'block';
+
+            if (option === 'correcto') {
+                resultBox.innerHTML = "<strong>¡Correcto!</strong> No difundir imágenes sin consentimiento es lo adecuado para proteger la privacidad y dignidad de las personas.";
+                resultBox.style.backgroundColor = '#2ecc71';
+            } else {
+                resultBox.innerHTML = "<strong>¡Incorrecto!</strong> Compartir o manipular imágenes sin permiso es una forma de violencia digital y puede tener consecuencias legales y emocionales graves.";
+                resultBox.style.backgroundColor = '#e74c3c';
+            }
+        }
+    </script>
+</head>
+<body>
+    <header>
+        <h1>Responsabilidad y Violencia Digital</h1>
+    </header>
+
+    <section>
+        <div class="alert">
+            <i class="fas fa-exclamation-triangle"></i> Manipular o compartir imágenes sin consentimiento es una forma de violencia digital. ¡No participes ni lo permitas!
+        </div>
+
+        <h2>¿Por qué no debes hacerlo?</h2>
+        <p>
+            Crear o compartir imágenes alteradas de una persona sin su consentimiento es una violación a su privacidad. Este tipo de violencia afecta principalmente a mujeres y personas vulnerables, provocando daños emocionales profundos. 
+        </p>
+        <p>
+            Difundir este contenido, incluso si parece una "broma", perpetúa la cultura del abuso digital y puede tener consecuencias legales graves para quienes lo hacen. La privacidad y la dignidad de las personas deben ser siempre respetadas.
+        </p>
+
+        <h2>Recursos educativos</h2>
+        <p><a href="https://www.argentina.gob.ar/tema/violenciayabuso" target="_blank">Números para denunciar violencia o abuso - Gobierno de Argentina</a></p>
+
+        <h2>Preguntas Frecuentes (FAQ)</h2>
+        <p><strong>¿Qué es la violencia digital?</strong></p>
+        <p>La violencia digital es cualquier acción que afecta negativamente a una persona a través de medios tecnológicos.</p>
+
+        <h2>Escenario Interactivo</h2>
+        <p>Tu amigo te envía una imagen alterada de una persona que ambos conocen sin su consentimiento y te pide que la compartas en redes sociales. ¿Qué harías?</p>
+        
+        <div class="button-box">
+            <button onclick="checkAnswer('incorrecto')">Compartirla, no es tan grave</button>
+            <button onclick="checkAnswer('correcto')">No compartirla y hablar con mi amigo</button>
+        </div>
+
+        <div id="result" class="result"></div>
+    </section>
+
+    <footer>
+        <p>&copy; 2024 Creado por Carlos Rodríguez y Santino Varela</p>
+    </footer>
+</body>
+</html>
