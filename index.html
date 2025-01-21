@@ -78,7 +78,6 @@
             width: 100%;
         }
     </style>
-    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
     <script>
         function checkAnswer(option) {
             var resultBox = document.getElementById('result');
@@ -90,17 +89,6 @@
             } else {
                 resultBox.innerHTML = "<strong>¡Incorrecto!</strong> Compartir o manipular imágenes sin permiso es una forma de violencia digital y puede tener consecuencias legales y emocionales graves.";
                 resultBox.style.backgroundColor = '#e74c3c';
-            }
-        }
-
-        function validateForm(event) {
-            event.preventDefault();
-            const recaptchaResponse = grecaptcha.getResponse();
-            if (recaptchaResponse.length === 0) {
-                alert("Por favor, completa el ReCAPTCHA.");
-            } else {
-                alert("ReCAPTCHA validado correctamente. Formulario enviado.");
-                // Aquí podrías enviar los datos del formulario a un servicio externo.
             }
         }
     </script>
@@ -123,16 +111,20 @@
             Difundir este contenido, incluso si parece una "broma", perpetúa la cultura del abuso digital y puede tener consecuencias legales graves para quienes lo hacen. La privacidad y la dignidad de las personas deben ser siempre respetadas.
         </p>
 
-        <h2>Formulario de Opinión</h2>
-        <form id="mi-formulario" onsubmit="validateForm(event)">
-            <label for="opinion">Escribe tu opinión:</label>
-            <textarea id="opinion" name="opinion" rows="4" required></textarea>
-            
-            <!-- Widget ReCAPTCHA -->
-            <div class="g-recaptcha" data-sitekey="6Ld_6L0qAAAAAORtgDZaB51E8IOXIfMNsJP-V3vO"></div>
+        <h2>Recursos educativos</h2>
+        <p><a href="https://www.argentina.gob.ar/tema/violenciayabuso" target="_blank">Números para denunciar violencia o abuso - Gobierno de Argentina</a></p>
 
-            <button type="submit">Enviar</button>
-        </form>
+        <h2>Preguntas Frecuentes (FAQ)</h2>
+        <p><strong>¿Qué es la violencia digital?</strong></p>
+        <p>La violencia digital es cualquier acción que afecta negativamente a una persona a través de medios tecnológicos.</p>
+
+        <h2>Escenario Interactivo</h2>
+        <p>Tu amigo te envía una imagen alterada de una persona que ambos conocen sin su consentimiento y te pide que la compartas en redes sociales. ¿Qué harías?</p>
+        
+        <div class="button-box">
+            <button onclick="checkAnswer('incorrecto')">Compartirla, no es tan grave</button>
+            <button onclick="checkAnswer('correcto')">No compartirla y hablar con mi amigo</button>
+        </div>
 
         <div id="result" class="result"></div>
     </section>
