@@ -60,6 +60,10 @@
             cursor: pointer;
             margin-right: 10px;
         }
+        .button-box button.disabled {
+            background-color: #d3d3d3;
+            cursor: not-allowed;
+        }
         .result {
             margin-top: 20px;
             padding: 15px;
@@ -79,29 +83,92 @@
         }
     </style>
     <script>
-        let currentQuestion = 1;
-        const maxQuestions = 4;
-        const errors = [];
+        let currentQuestion = 0;
+        let errors = [];
+        const questions = [
+            {
+                id: 1,
+                text: "Tu amigo te envía una imagen alterada de una persona que ambos conocen sin su consentimiento y te pide que la compartas en redes sociales. ¿Qué harías?",
+                options: [
+                    { text: "Compartirla, no es tan grave", isCorrect: false, explanation: "Compartir imágenes sin consentimiento perpetúa la violencia digital." },
+                    { text: "No compartirla y hablar con mi amigo", isCorrect: true, explanation: "No compartir protege la privacidad y dignidad de las personas." }
+                ]
+            },
+            {
+                id: 2,
+                text: "Encuentras una publicación en redes sociales con insultos hacia una persona. ¿Qué haces?",
+                options: [
+                    { text: "Ignorar, no es asunto mío", isCorrect: false, explanation: "Ignorar fomenta el acoso al no detenerlo." },
+                    { text: "Denunciar la publicación", isCorrect: true, explanation: "Denunciar ayuda a detener el acoso y proteger a las víctimas." }
+                ]
+            },
+            {
+                id: 3,
+                text: "Te envían un mensaje privado con amenazas. ¿Qué haces?",
+                options: [
+                    { text: "Responder al mensaje", isCorrect: false, explanation: "Responder puede escalar la situación y poner en riesgo tu seguridad." },
+                    { text: "Bloquear y denunciar", isCorrect: true, explanation: "Bloquear y denunciar protege tu seguridad y alerta sobre el agresor." }
+                ]
+            },
+            {
+                id: 4,
+                text: "Un conocido sube fotos tuyas a internet sin permiso. ¿Qué haces?",
+                options: [
+                    { text: "No hacer nada", isCorrect: false, explanation: "Dejarlo pasar permite que continúe invadiendo tu privacidad." },
+                    { text: "Pedirle que las elimine y denunciar", isCorrect: true, explanation: "Contactar al responsable y denunciar protege tus derechos." }
+                ]
+            }
+        ];
 
-        function checkAnswer(question, option, explanation) {
-            const resultBox = document.getElementById(`result${question}`);
+        // Randomize questions
+        questions.sort(() => Math.random() - 0.5);
+
+        function loadQuestion() {
+            if (currentQuestion < questions.length) {
+                const question = questions[currentQuestion];
+                const questionContainer = document.getElementById('question-container');
+
+                questionContainer.innerHTML = `
+                    <p>${question.text}</p>
+                    <div class="button-box">
+                        ${question.options
+                            .map(
+                                (option, index) => `
+                                    <button id="option${index}" onclick="checkAnswer(${index}, ${question.id}, ${option.isCorrect}, '${option.explanation}')">
+                                        ${option.text}
+                                    </button>`
+                            )
+                            .join('')}
+                    </div>
+                    <div id="result${question.id}" class="result"></div>
+                `;
+            } else {
+                showSummary();
+            }
+        }
+
+        function checkAnswer(optionIndex, questionId, isCorrect, explanation) {
+            const resultBox = document.getElementById(`result${questionId}`);
             resultBox.style.display = 'block';
 
-            if (option === 'correcto') {
+            if (isCorrect) {
                 resultBox.innerHTML = `<strong>¡Correcto!</strong> ${explanation}`;
                 resultBox.style.backgroundColor = '#2ecc71';
             } else {
                 resultBox.innerHTML = `<strong>¡Incorrecto!</strong> ${explanation}`;
                 resultBox.style.backgroundColor = '#e74c3c';
-                errors.push({ question, explanation });
+                errors.push({ questionId, explanation });
             }
 
-            if (currentQuestion < maxQuestions) {
-                document.getElementById(`question${currentQuestion + 1}`).style.display = 'block';
+            // Disable all options for the current question
+            const buttons = document.querySelectorAll(`#question-container button`);
+            buttons.forEach(button => button.classList.add('disabled'));
+
+            // Move to the next question after a delay
+            setTimeout(() => {
                 currentQuestion++;
-            } else {
-                showSummary();
-            }
+                loadQuestion();
+            }, 1000);
         }
 
         function showSummary() {
@@ -111,7 +178,7 @@
             if (errors.length > 0) {
                 let summaryHTML = '<h3>Errores cometidos:</h3><ul>';
                 errors.forEach(error => {
-                    summaryHTML += `<li>Pregunta ${error.question}: ${error.explanation}</li>`;
+                    summaryHTML += `<li>Pregunta ${error.questionId}: ${error.explanation}</li>`;
                 });
                 summaryHTML += '</ul>';
                 summaryBox.innerHTML = summaryHTML;
@@ -119,6 +186,8 @@
                 summaryBox.innerHTML = '<strong>¡Felicidades! Has respondido todo correctamente.</strong>';
             }
         }
+
+        window.onload = loadQuestion;
     </script>
 </head>
 <body>
@@ -147,43 +216,7 @@
         <p>La violencia digital es cualquier acción que afecta negativamente a una persona a través de medios tecnológicos.</p>
 
         <h2>Escenario Interactivo</h2>
-
-        <div id="question1">
-            <p>Tu amigo te envía una imagen alterada de una persona que ambos conocen sin su consentimiento y te pide que la compartas en redes sociales. ¿Qué harías?</p>
-            <div class="button-box">
-                <button onclick="checkAnswer(1, 'incorrecto', 'Compartir imágenes sin consentimiento perpetúa la violencia digital.')">Compartirla, no es tan grave</button>
-                <button onclick="checkAnswer(1, 'correcto', 'No compartir protege la privacidad y dignidad de las personas.')">No compartirla y hablar con mi amigo</button>
-            </div>
-            <div id="result1" class="result"></div>
-        </div>
-
-        <div id="question2" style="display: none;">
-            <p>Encuentras una publicación en redes sociales con insultos hacia una persona. ¿Qué haces?</p>
-            <div class="button-box">
-                <button onclick="checkAnswer(2, 'incorrecto', 'Ignorar fomenta el acoso al no detenerlo.')">Ignorar, no es asunto mío</button>
-                <button onclick="checkAnswer(2, 'correcto', 'Denunciar ayuda a detener el acoso y proteger a las víctimas.')">Denunciar la publicación</button>
-            </div>
-            <div id="result2" class="result"></div>
-        </div>
-
-        <div id="question3" style="display: none;">
-            <p>Te envían un mensaje privado con amenazas. ¿Qué haces?</p>
-            <div class="button-box">
-                <button onclick="checkAnswer(3, 'incorrecto', 'Responder puede escalar la situación y poner en riesgo tu seguridad.')">Responder al mensaje</button>
-                <button onclick="checkAnswer(3, 'correcto', 'Bloquear y denunciar protege tu seguridad y alerta sobre el agresor.')">Bloquear y denunciar</button>
-            </div>
-            <div id="result3" class="result"></div>
-        </div>
-
-        <div id="question4" style="display: none;">
-            <p>Un conocido sube fotos tuyas a internet sin permiso. ¿Qué haces?</p>
-            <div class="button-box">
-                <button onclick="checkAnswer(4, 'incorrecto', 'Dejarlo pasar permite que continúe invadiendo tu privacidad.')">No hacer nada</button>
-                <button onclick="checkAnswer(4, 'correcto', 'Contactar al responsable y denunciar protege tus derechos.')">Pedirle que las elimine y denunciar</button>
-            </div>
-            <div id="result4" class="result"></div>
-        </div>
-
+        <div id="question-container"></div>
         <div id="summary" class="result" style="display: none;"></div>
     </section>
 
